@@ -13,7 +13,7 @@ PROCESS_COUNT = 20
 # 4 -> 2,17
 # 20 -> 5,36
 
-def brute(passhash, i, total_count, the_end, very_start):
+def brute(passwordhash, i, total_count, the_end, very_start):
 	print(f"Process {i} started..." )
 	while not the_end.value:
 		h = hashlib.sha256(str(i).encode()).hexdigest()
