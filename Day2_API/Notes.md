@@ -41,3 +41,11 @@ info
 API googlowe są mało przyjemne do pracy ;)
 
 W pythonie '' i "" to jest kompletnie to samo
+
+VirtualEnvironment:
+python -m venv env
+.\env\Sripts\Activate.ps1
+
+naprawa PIP
+python -m pip install --upgrade pip
+
