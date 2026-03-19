@@ -19,16 +19,14 @@ import os.path
 #9 -> 0  
 FRAG = 10
 
-
-def sort(inn, out):
-    None
-
-frag_number = -1
 with open("shuffled.png.bin", "rb") as f:
     while True:
-        frag_number += 1
-        fdata = f.read(FRAG)
+        fdata = list(f.read(FRAG))
+        print(f"przed: {fdata}")
         if not fdata:
             break
-        print(fdata)
-#        sort(fdata, )
+        fdata[0], fdata[1], fdata[2], fdata[3], fdata[4], fdata[5], fdata[6], fdata[7], fdata[8], fdata[9] = fdata[9], fdata[2], fdata[1], fdata[4], fdata[5], fdata[0], fdata[8], fdata[7], fdata[3], fdata[6]
+        print(f"po: {fdata}")
+        with open("newfile.png.bin", "ab") as f_out:
+            f_out.write(bytes(fdata))
+        
