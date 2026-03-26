@@ -7,45 +7,24 @@ import os.path
 # Wyslij te posegregowane do pliku
 # powtórz cały proces
 
-#0 -> 5
-#1 -> 2
-#2 -> 1
-#3 -> 8
-#4 -> 3
-#5 -> 4     
-#6 -> 9
-#7 -> 7
-#8 -> 9
-#9 -> 0  
-FRAG = 10
+FRAG = 8192
 input_file = "shuffled.png.bin"
 output_file = "newfile.png.bin"
 
 # Najpierw usuwamy stary plik wynikowy, jeśli istnieje, 
 # żeby "ab" nie dopisywało do starej próby
 import os
-if os.path.exists(output_file):
-    os.remove(output_file)
 
-with open(input_file, "rb") as f, open(output_file, "ab") as f_out:
-    while True:
+
+list_in = [0,1,2,3,4,5,6,7,8,9]
+list_out = [9,2,1,4,5,0,8,7,3,6]
+
+with open(input_file, "rb") as f, open(output_file, "wb") as f_out:
+    for x in list_out:
         chunk = f.read(FRAG)
-        
-        if not chunk: # Jeśli koniec pliku, przerywamy od razu
-            break
+        #teraz elementy listy chunk, należy posegregować tak, jak to jest w przypadku list_out
+        list_in.pop(int(x))
+        list_in.insert(int(x),chunk)
+
+    f_out.write(b"".join(list_in))
             
-        if len(chunk) < FRAG:
-            # Obsługa sytuacji, gdy ostatni kawałek ma mniej niż 10 bajtów
-            f_out.write(chunk)
-            break
-
-        fdata = list(chunk)
-        
-        # Twoja zamiana (mapowanie)
-        # 0->9, 1->2, 2->1, 3->4, 4->5, 5->0, 6->8, 7->7, 8->3, 9->6
-        fdata[0], fdata[1], fdata[2], fdata[3], fdata[4], fdata[5], fdata[6], fdata[7], fdata[8], fdata[9] = \
-        fdata[9], fdata[2], fdata[1], fdata[4], fdata[5], fdata[0], fdata[8], fdata[7], fdata[3], fdata[6]
-        
-        f_out.write(bytes(fdata))
-
-print("Gotowe! Plik został przetworzony.")
