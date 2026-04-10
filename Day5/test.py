@@ -60,6 +60,26 @@ while i < len(tmpl):
   if st == ST_START:
     if ch == "{":
       st = ST_TAG
+      k = ""
       continue
     output += ch
-    
+    st = ST_TEXT
+    continue
+
+  if st == ST_TEXT:
+    if ch == "{":
+      st = ST_TAG
+      k = ""
+      continue
+    output += ch
+    continue
+  if st == ST_TAG:
+    if ch == "}":
+      v = replacements.get(k, "?unknown?")
+      output += v
+      st = ST_TEXT
+      continue
+    k += ch
+    continue
+
+print(output)
